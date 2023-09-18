@@ -74,6 +74,6 @@ class Place(BaseModel, Base):
             for adding an Amenity.id to the attribute amenity_ids
             """
             from models import storage
-            for amenity in storage.all(Amenity).values:
+            for amenity in storage.all(Amenity).values():
                 if amenity.id == value:
                     self.amenity_ids.append(value)
