@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+"""This module defines a class to manage db storage for hbnb clone"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.amenity import Amenity
@@ -38,8 +40,8 @@ class DBStorage:
         for cl in cls_list:
             objs = self.__session.query(cl).all()
             for obj in objs:
-                key = "{}.{}".format(cl.__name__, obj.id)
-                obj_dict[key] = obj
+                key = f"{cl.__name__}.{obj.id}"
+                obj_dict[key] = obj.to_dict()
         return obj_dict
 
     def new(self, obj):

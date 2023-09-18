@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Place Module for HBNB project """
+"""Place Module for HBNB project"""
 import os
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -23,7 +23,7 @@ place_amenity = Table(
 
 
 class Place(BaseModel, Base):
-    """ A place to stay """
+    """Place class that inherits from BaseModel"""
     __tablename__ = 'places'
 
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
