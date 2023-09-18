@@ -5,6 +5,8 @@ from models.base_model import BaseModel
 from models import storage
 import os
 
+from models.user import User
+
 
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
@@ -21,7 +23,7 @@ class test_fileStorage(unittest.TestCase):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
-        except:
+        except Exception:
             pass
 
     def test_obj_list_empty(self):
@@ -107,3 +109,69 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete(self):
+        """ Verify that the delete method removes objects from storage """
+        # Create a BaseModel object and add it to storage
+        new = BaseModel()
+        storage.new(new)
+        storage.save()
+
+        # Verify that the object is initially in storage
+        self.assertIn(new, storage.all(BaseModel).values())
+
+        # Delete the object from storage
+        storage.delete(new)
+
+        # Verify that the object is no longer in storage
+        self.assertNotIn(new, storage.all(BaseModel).values())
+
+    def test_all_with_filter(self):
+        """ Verify that all method returns objects of a specified class """
+        # Create two BaseModel objects and one User object
+        base_model1 = BaseModel()
+        base_model2 = BaseModel()
+        user1 = User()
+
+        # Add the objects to storage
+        storage.new(base_model1)
+        storage.new(base_model2)
+        storage.new(user1)
+        storage.save()
+
+        # Retrieve all BaseModel objects using the filter
+        base_models = storage.all(BaseModel)
+
+        # Retrieve all User objects using the filter
+        user_models = storage.all(User)
+
+        # Verify that both BaseModel objects are in the filtered result
+        self.assertIn(base_model1, base_models.values())
+        self.assertIn(base_model2, base_models.values())
+
+        # Verify that the User object is not in the filtered result
+        self.assertNotIn(base_model1, user_models.values())
+
+    def test_all_without_filter(self):
+        """
+        Verify that all method returns all
+        objects when no filter is provided
+        """
+        # Create two BaseModel objects and one User object
+        base_model1 = BaseModel()
+        base_model2 = BaseModel()
+        user = User()
+
+        # Add the objects to storage
+        storage.new(base_model1)
+        storage.new(base_model2)
+        storage.new(user)
+        storage.save()
+
+        # Retrieve all objects without a filter
+        all_objects = storage.all()
+
+        # Verify that all objects are in the result
+        self.assertIn(base_model1, all_objects.values())
+        self.assertIn(base_model2, all_objects.values())
+        self.assertIn(user, all_objects.values())
