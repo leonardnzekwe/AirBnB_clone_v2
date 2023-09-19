@@ -85,6 +85,7 @@ class Place(BaseModel, Base):
                 obj_key = f"Amenity.{amenity_id}"
                 if obj_key in all_amenities:
                     amenity = all_amenities[obj_key]
+                if amenity:
                     amenity_instances.append(amenity)
             return amenity_instances
 
