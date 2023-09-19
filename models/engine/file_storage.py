@@ -62,12 +62,3 @@ class FileStorage:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in FileStorage.__objects:
                 del FileStorage.__objects[key]
-
-    def get_obj(self, obj_cls, obj_id):
-        """
-        Retrieve an object from storage by class and ID
-        Returns the retrieved object, or None if not found
-        """
-        from models.amenity import Amenity
-        key = f"{obj_cls.__name__}.{obj_id}"
-        return self.__objects.get(key, None)

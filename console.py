@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Console Module for AirBnB operations"""
 import cmd
+import os
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -166,7 +167,6 @@ class HBNBCommand(cmd.Cmd):
 
         # Create an instance of the specified class with the parameters
         new_instance = HBNBCommand.classes[class_name](**params_dict)
-        storage.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -253,8 +253,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             objs = storage.all().values()
 
-        for obj in objs:
-            print_list.append(obj.to_dict())
+        if os.getenv("HBNB_TYPE_STORAGE") == "db":
+            for obj in objs:
+                print_list.append(str(obj))
+        else:
+            for obj in objs:
+                print_list.append(obj.to_dict())
 
         print(print_list)
 

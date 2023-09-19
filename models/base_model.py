@@ -32,6 +32,7 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
         storage.new(self)
+        storage.save()
 
     def __str__(self):
         """Returns a string representation of the instance"""
