@@ -80,10 +80,11 @@ class Place(BaseModel, Base):
             """
             from models import storage
             amenity_instances = []
+            all_amenities = storage.all(Amenity)
             for amenity_id in self.amenity_ids:
-                obj_key = f"{Amenity.__name__}.{amenity_id}"
-                amenity = storage.all(Amenity).key(obj_key)
-                if amenity is not None:
+                obj_key = f"Amenity.{amenity_id}"
+                if obj_key in all_amenities:
+                    amenity = all_amenities[obj_key]
                     amenity_instances.append(amenity)
             return amenity_instances
 
