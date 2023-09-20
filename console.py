@@ -167,6 +167,7 @@ class HBNBCommand(cmd.Cmd):
 
         # Create an instance of the specified class with the parameters
         new_instance = HBNBCommand.classes[class_name](**params_dict)
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
