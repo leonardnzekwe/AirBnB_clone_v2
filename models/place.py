@@ -80,12 +80,8 @@ class Place(BaseModel, Base):
             """
             from models import storage
             amenity_instances = []
-            all_amenities = storage.all(Amenity)
-            for amenity_id in self.amenity_ids:
-                obj_key = f"Amenity.{amenity_id}"
-                if obj_key in all_amenities:
-                    amenity = all_amenities[obj_key]
-                if amenity:
+            for amenity in storage.all(Amenity).values():
+                if amenity.id in self.amenity_ids:
                     amenity_instances.append(amenity)
             return amenity_instances
 

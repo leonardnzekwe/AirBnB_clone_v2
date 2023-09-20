@@ -8,6 +8,9 @@ import json
 import os
 
 
+@unittest.skipIf(
+    os.getenv("HBNB_TYPE_STORAGE") == "db", "test_class_for_file_storage_only"
+)
 class test_basemodel(unittest.TestCase):
     """Test Basemode Class"""
 
@@ -74,6 +77,12 @@ class test_basemodel(unittest.TestCase):
         n = {None: None}
         with self.assertRaises(TypeError):
             new = self.value(**n)
+
+    def test_kwargs_one(self):
+        """test_kwargs_one method"""
+        n = {'name': 'ray'}
+        new = self.value(**n)
+        self.assertEqual(new.name, n['name'])
 
     def test_id(self):
         """test_id method"""
