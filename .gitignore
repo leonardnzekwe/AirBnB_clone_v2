@@ -4,3 +4,6 @@ main_delete.py
 main_place_amenities.py
 file.json
 git_dev_ops.sh
+main_42.py
+drop_test_database.sql
+main_42_0.sql
