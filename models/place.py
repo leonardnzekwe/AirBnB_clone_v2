@@ -65,7 +65,8 @@ class Place(BaseModel, Base):
             """
             from models import storage
             review_list = []
-            for review in storage.all(Review).values():
+            all_reviews = storage.all(Review)
+            for review in all_reviews.values():
                 if review.place_id == self.id:
                     review_list.append(review)
             return review_list
@@ -81,22 +82,18 @@ class Place(BaseModel, Base):
             from models import storage
             amenity_instances = []
             all_amenities = storage.all(Amenity)
-            for amenity_id in self.amenity_ids:
-                obj_key = f"Amenity.{amenity_id}"
-                if obj_key in all_amenities:
-                    amenity = all_amenities[obj_key]
-                if amenity:
+            for amenity in all_amenities.values():
+                if amenity.id in self.amenity_ids:
                     amenity_instances.append(amenity)
             return amenity_instances
 
         @amenities.setter
-        def amenities(self, obj):
+        def amenities(self, amenity_obj):
             """
             Setter attribute amenities that handles append method
             for adding an Amenity.id to the attribute amenity_ids
             This method should accept only Amenity object,
             otherwise, do nothing.
             """
-            if isinstance(obj, Amenity):
-                if obj.id not in self.amenity_ids:
-                    self.amenity_ids.append(obj.id)
+            if isinstance(amenity_obj, Amenity):
+                self.amenity_ids.append(amenity_obj.id)

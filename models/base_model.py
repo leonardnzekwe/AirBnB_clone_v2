@@ -14,25 +14,15 @@ class BaseModel:
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
     def __init__(self, *args, **kwargs):
-        """Instatntiates a new model"""
-        from models import storage
-        if not kwargs:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-        else:
-            self.id = str(uuid.uuid4())
-            if 'created_at' not in kwargs.keys():
-                self.created_at = datetime.now()
-            if 'updated_at' not in kwargs.keys():
-                self.updated_at = datetime.now()
+        """Instantiates a new model"""
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        if kwargs:
+            key_list = ['created_at', 'updated_at', '__class__']
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    value = datetime.fromisoformat(value)
-                if key != "__class__":
+                if key not in key_list:
                     setattr(self, key, value)
-        storage.new(self)
-        storage.save()
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -43,6 +33,7 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.utcnow()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
