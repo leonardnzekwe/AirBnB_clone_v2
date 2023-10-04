@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Archive Deploy Script"""
-from fabric.api import *
+from fabric.api import env, run, put
 from datetime import datetime
 import os
 
@@ -16,7 +16,7 @@ def do_deploy(archive_path):
     """
     if not os.path.exists(archive_path):
         return False
-    
+
     try:
         # Upload the archive to the /tmp/ directory on the web server
         archive_filename = os.path.basename(archive_path)
@@ -29,13 +29,17 @@ def do_deploy(archive_path):
         run('sudo mkdir -p {}'.format(archive_folder))
 
         # Uncompress the archive into the folder
-        run('sudo tar -xzf /tmp/{} -C {}'.format(archive_filename, archive_folder))
+        run('sudo tar -xzf /tmp/{} -C {}'.format(
+            archive_filename, archive_folder
+        ))
 
         # Delete the uploaded archive
         run('sudo rm /tmp/{}'.format(archive_filename))
 
         # Move the contents to the proper location
-        run('sudo mv {}/web_static/* {}'.format(archive_folder, archive_folder))
+        run('sudo mv {}/web_static/* {}'.format(
+            archive_folder, archive_folder
+        ))
 
         # Remove the empty web_static folder
         run('sudo rm -rf {}/web_static'.format(archive_folder))
