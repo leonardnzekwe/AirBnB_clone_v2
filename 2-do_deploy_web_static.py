@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Archive Deploy Script"""
 from fabric.api import env, run, put
-from datetime import datetime
 import os
 
 
@@ -48,8 +47,8 @@ def do_deploy(archive_path):
         run('sudo rm -rf /data/web_static/current')
         run('sudo ln -s {} /data/web_static/current'.format(archive_folder))
 
+        # All Operations were successful
         print("New version deployed!")
-
         return True
-    except Exception as err:
+    except Exception:
         return False
