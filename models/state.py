@@ -25,6 +25,7 @@ class State(BaseModel, Base):
             """
             Getter attribute cities that returns
             the list of City instances
+            linked to the current State.
             """
             from models import storage
             city_list = []

@@ -7,3 +7,5 @@ git_dev_ops.sh
 main_42.py
 drop_test_database.sql
 main_42_0.sql
+main.py
+7-states_list.sql
