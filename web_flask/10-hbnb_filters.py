@@ -1,7 +1,12 @@
+#!/usr/bin/python3
+"""Web Flask Module"""
+
+
 from flask import Flask, render_template
 from models import storage
 from models.amenity import Amenity
 from models.state import State
+
 
 app = Flask(__name__, template_folder="templates")
 
